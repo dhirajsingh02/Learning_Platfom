@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submitted Data</title>
+</head>
+<body>
+    <div class="data-container">
+        <h2>Submitted Data</h2>
+        <p>Name: <span id="name"></span></p>
+        <p>Student Email: <span id="email_id"></span></p>
+        <p>Employee ID: <span id="employee_id"></span></p>
+        <p>Student Aadhaar: <span id="aadhaar_no"></span></p>
+        <p>Password: <span id="password"></span></p>
+        <p>Mobile No: <span id="mobile_no"></span></p>
+        <p>Gender: <span id="gender"></span></p>
+
+    </div>
+    <div>
+        <button id="accept-button">Accept</button>
+        <button id="decline-button">Decline</button>
+    </div>
+    <div id="message" style="display: none; margin-top: 20px; color: green;">
+        Data added to the database successfully!
+    </div>
+    <script>
+        document.getElementById('name').textContent = localStorage.getItem('name');
+        document.getElementById('email_id').textContent = localStorage.getItem('email_id');
+        document.getElementById('employee_id').textContent = localStorage.getItem('employee_id');
+        document.getElementById('aadhaar_no').textContent = localStorage.getItem('aadhaar_no');
+        document.getElementById('password').textContent = localStorage.getItem('password');
+        //document.getElementById('repassword').textContent = localStorage.getItem('repassword');
+        document.getElementById('mobile_no').textContent = localStorage.getItem('mobile_no');
+        document.getElementById('gender').textContent = localStorage.getItem('gender');
+
+        //Handle accept button click
+        document.getElementById('accept-button').addEventListener('click', function() {
+            const data = {
+                name: localStorage.getItem('name'),
+                email_id: localStorage.getItem('email_id'),
+                employee_id: localStorage.getItem('employee_id'),
+                aadhaar_no: localStorage.getItem('aadhaar_no'),
+                password: localStorage.getItem('password'),
+                //repassword: localStorage.getItem('repassword'),
+                mobile_no: localStorage.getItem('mobile_no'),
+                gender: localStorage.getItem('gender')
+            };
+            fetch('/post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('message').style.display = 'block';
+                } else {
+                    throw new Error('Failed to submit data');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        document.getElementById('decline-button').addEventListener('click', function() {
+            alert('Data not submitted');
+        });
+    </script>
+</body>
+</html>

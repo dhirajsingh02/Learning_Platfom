@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin_SignUp</title>
+    <link rel="stylesheet" href="/Assets/css/admin_register.css">
+</head>
+<body>
+    <div class="contact-container">
+        <form id="form" class="contact-left" action="admin_register" method="POST">
+            <div class="contact-left-title">
+                <h2>Admin Register</h2>
+                <hr>
+            </div>
+            <input type="text" id="employee_id" name="employee_id" placeholder="Enter your IOCL employee ID" class="contact-inputs" required>
+            <input type="text" id="name" name="name" placeholder="Name" class="contact-inputs" required>
+
+                <!--<label for="subject-id">Enter the subject ID:</label>-->
+                <select name="subject" id="subject" class="contact-inputs" required>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Maths">Maths</option>
+                    <option value="Biology">Biology</option>
+                    
+                </select>
+            
+            <input type="password" id="password" name="password" pattern="^(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])\S{8,}$" title="Password must contain at least one number, one alphabet, one symbol, and be at least 8 characters long" required placeholder="Enter password" class="contact-inputs" />
+            <input type="password" id="repassword" name="repassword" required placeholder="Retype password" class="contact-inputs" />
+            <button type="submit" id="submit-btn">Submit</button>
+        </form>
+    </div>
+    <script>
+        document.getElementById('form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const password = document.getElementById('password').value;
+            const repassword = document.getElementById('repassword').value;
+
+            if (password !== repassword) {
+                alert("Passwords do not match");
+                return;
+            }
+
+            // Collect form data
+            const formData = new FormData(event.target);
+            const data = Object.fromEntries(formData.entries());
+
+            // Send data to the server
+            try {
+                const response = await fetch('/admin_register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert(result.message);
+                } else {
+                    alert(result.error);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred');
+            }
+        });
+    </script>
+</body>
+</html>

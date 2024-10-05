@@ -1,0 +1,238 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-image: url('Assets/images/homebg.jpeg');
+    background-size: cover;
+    background-position: center;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: black;
+}
+
+header {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+}
+
+.logo-title {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    height: 100px;
+    width: auto;
+    margin-right: 20px;
+}
+
+h1 {
+    font-size: 2em;
+    margin: 0;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: white;
+    background-color: #3498db;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 2px solid white;
+    transition: all 0.3s ease;
+}
+
+nav ul li a:hover {
+    font-weight: bold;
+    text-decoration: underline;
+    background-color: #8bb929;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+#login-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 20px 40px;
+    font-size: 1.2em;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(233, 207, 8, 0.955);
+}
+
+#login-btn:hover {
+    font-weight: bold;
+    text-decoration: underline;
+    background-color: yellowgreen;
+}
+
+#login-dialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 10px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 20;
+}
+
+.login-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-box a {
+    color: white;
+    text-decoration: none;
+}
+
+.login-option {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    margin: 10px 0;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-option:hover {
+    font-weight: bold;
+    text-decoration: underline;
+    background-color: #2980b9;
+}
+
+.hidden {
+    display: none;
+}
+
+@media (max-width: 1024px) {
+    .logo {
+        height: 80px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    nav ul li a {
+        padding: 8px 16px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .logo {
+        height: 60px;
+        margin-right: 0;
+    }
+
+    h1 {
+        font-size: 1.5em;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10px;
+    }
+
+    nav ul li {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+
+    nav ul li a {
+        padding: 6px 12px;
+        font-size: 0.8em;
+    }
+
+    #login-btn {
+        padding: 15px 30px;
+        font-size: 1em;
+    }
+
+    #login-dialog {
+        width: 90%;
+        padding: 20px;
+    }
+
+    .login-option {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.2em;
+    }
+
+    .logo {
+        height: 50px;
+    }
+
+    nav ul li a {
+        padding: 5px 10px;
+        font-size: 0.7em;
+    }
+
+    #login-btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+
+    .login-option {
+        padding: 8px 16px;
+        font-size: 0.8em;
+    }
+}

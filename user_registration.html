@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <link rel="stylesheet" href="/Assets/css/user_registration.css">
+</head>
+<body>
+    <div class="contact-container">
+        <div class="contact-left-title">
+            <h2>Register</h2>
+            <hr>
+        </div>
+        <form id="form2" class="contact-left">
+            <input type="password" id="password" name="password"
+				pattern="^(?=.*\d)(?=.*[a-zA-Z])(?=.*[^a-zA-Z0-9])\S{8,}$" title="Password must contain at least one number, 
+						one alphabet, one symbol, and be at 
+						least 8 characters long" required 
+                        placeholder="Enter password" class="contact-inputs"/>
+
+			
+			<input type="password" id="repassword" name="repassword" required
+            placeholder="Retype password" class="contact-inputs" />
+
+        </form>
+        <form id="form" class="contact-left">
+            
+            <input type="hidden" name="access_key" value="bf7fbe49-a288-44aa-8fa3-39cc76c47ac9">
+            <input type="text" id="name" name="name" placeholder="Enter your name" class="contact-inputs" required>
+            <input type="text" id="employee_id" name="employee_id" placeholder="Enter your parent's IOCL employee ID" class="contact-inputs" required>
+            <input type="email" id="email_id" name="email_id" placeholder="Enter your email ID" class="contact-inputs" required>
+            <input type="text" id="aadhaar_no" name="aadhaar_no" maxlength="12" pattern="\d{12}" placeholder="Enter your aadhaar no." class="contact-inputs" required>
+			<input type="text" id="mobile_no" name="mobile_no" maxlength="10" required
+            placeholder="Enter student's mobile no." class="contact-inputs" />
+			<select id="gender" name="gender" required
+            placeholder="Enter student's gender" class="contact-inputs">
+				<option value="male">
+					Male
+				</option>
+				<option value="female">
+					Female
+				</option>
+				<option value="other">
+					Other
+				</option>
+			</select>
+            
+            
+            <button type="submit">Submit <img src="/Assets/images/arrow_icon.png" alt=""></button>
+            <a href="user_login.html" class="button"><button type="button">Login <img src="/Assets/images/arrow_icon2.png" alt=""></button></a>
+        </form>
+    </div>
+    <script>
+        const form = document.getElementById('form');
+        const name = document.getElementById('name');
+        const employee_id=document.getElementById('employee_id');
+        const email_id = document.getElementById('email_id');
+        const aadhaar_no = document.getElementById('aadhaar_no');
+        const password=document.getElementById('password');
+        const repassword=document.getElementById('repassword');
+        const mobile_no=document.getElementById('mobile_no');
+        const gender=document.getElementById('gender');
+
+        
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            console.log('Form submitted!');
+
+            const nameValue = name.value;
+            const email_idValue = email_id.value;
+            const aadhaar_noValue = aadhaar_no.value;
+            const passwordValue = password.value;
+            const repasswordValue = repassword.value;
+            const mobile_noValue = mobile_no.value;
+            const genderValue = gender.value;
+            const employee_idValue=employee_id.value;
+            
+            if(passwordValue!=repasswordValue){
+                alert("Passwords do not match");
+                return;
+            }
+
+            // Store data locally
+            localStorage.setItem('name', nameValue);
+            localStorage.setItem('employee_id',employee_idValue);
+            localStorage.setItem('email_id', email_idValue);
+            localStorage.setItem('aadhaar_no', aadhaar_noValue);
+            localStorage.setItem('password', passwordValue);
+            localStorage.setItem('repassword', repasswordValue);
+            localStorage.setItem('mobile_no', mobile_noValue);
+            localStorage.setItem('gender', genderValue);
+
+            // Create a FormData object and append form data
+            const formData = new FormData(form);
+            formData.append('access_key', 'bf7fbe49-a288-44aa-8fa3-39cc76c47ac9');
+
+            // Fetch API to send form data to Web3Forms
+            fetch('https://api.web3forms.com/submit', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Registration request is being reviewed by the admin.');
+                    //window.location.href = "next.html";
+                } else {
+                    alert('Failed to send email');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            });
+        });
+    </script>
+</body>
+</html>

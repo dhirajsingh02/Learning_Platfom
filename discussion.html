@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQs</title>
+    <link rel="stylesheet" href="/Assets/css/discussion.css">
+</head>
+<body>
+    <header>
+        <div class="logo-title">
+            <img src="/Assets/images/logo.png" alt="Logo" class="logo">
+            <h1>Ask your doubts!</h1>
+        </div>
+    </header>
+
+    <div class="chat-icon" onclick="window.location.href='https://app.droxy.ai/guest-chatbot/668ac723b49baf2d819a5ecf'">
+        <img src="/Assets/images/download.png" alt="Chat Icon">
+    </div>
+
+    <main>
+        <div class="form-container" id="login-form">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button id="login-btn">Login</button>
+            <div id="login-error" style="color: red; display: none;">Invalid username or password</div>
+        </div>
+
+        <div class="form-container" id="discussion-form" style="display: none;">
+            <div class="subject-id-box">
+                <select name="subject" id="subject-id">
+                    <option value="">Select your subject</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Maths">Maths</option>
+                    <option value="Biology">Biology</option>
+                </select>
+                <select name="employee" id="employee-id" disabled>
+                    <option value="">Select an employee</option>
+                </select>
+            </div>
+            <div class="query-box">
+                <textarea id="query-box" placeholder="Enter your query here" disabled></textarea>
+                <button id="submit-btn" disabled>Submit</button>
+            </div>
+        </div>
+        <input type="hidden" id="student-id" value="">
+    </main>
+
+    <script>
+        document.getElementById('login-btn').addEventListener('click', async function () {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            const data = {
+                username,
+                password
+            };
+
+            try {
+                const response = await fetch('/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    document.getElementById('student-id').value = result.student_id;
+                    document.getElementById('login-form').style.display = 'none';
+                    document.getElementById('discussion-form').style.display = 'block';
+                } else {
+                    document.getElementById('login-error').style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('login-error').style.display = 'block';
+            }
+        });
+
+        document.getElementById('subject-id').addEventListener('change', async function () {
+            const subjectId = this.value;
+            const employeeDropdown = document.getElementById('employee-id');
+            const queryBox = document.getElementById('query-box');
+            const submitBtn = document.getElementById('submit-btn');
+
+            employeeDropdown.disabled = true;
+            queryBox.disabled = true;
+            submitBtn.disabled = true;
+            employeeDropdown.innerHTML = '<option value="">Select an employee</option>';
+
+            if (subjectId) {
+                try {
+                    const response = await fetch(`/employees/${subjectId}`);
+                    const employees = await response.json();
+                    
+                    employees.forEach(employee => {
+                        const option = document.createElement('option');
+                        option.value = employee.employee_id;
+                        option.textContent = employee.name/*.password*/;
+                        employeeDropdown.appendChild(option);
+                    });
+
+                    employeeDropdown.disabled = false;
+                } catch (error) {
+                    console.error('Error fetching employees:', error);
+                }
+            }
+        });
+
+        document.getElementById('employee-id').addEventListener('change', function () {
+            const queryBox = document.getElementById('query-box');
+            const submitBtn = document.getElementById('submit-btn');
+
+            if (this.value) {
+                queryBox.disabled = false;
+                submitBtn.disabled = false;
+            } else {
+                queryBox.disabled = true;
+                queryBox.value = '';
+                submitBtn.disabled = true;
+            }
+        });
+
+        document.getElementById('submit-btn').addEventListener('click', async function () {
+            const queryBox = document.getElementById('query-box');
+            const subjectId = document.getElementById('subject-id').value;
+            const employeeId = document.getElementById('employee-id').value;
+            const studentId = document.getElementById('student-id').value;
+
+            if (queryBox.value.trim() === '') {
+                alert('Please enter a query.');
+                return;
+            }
+
+            const data = {
+                student_id: studentId,
+                employee_id: employeeId,
+                question: queryBox.value,
+                asked_date: new Date().toISOString().slice(0, 10)
+            };
+
+            try {
+                const response = await fetch('/discussions', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await response.json();
+                console.log(result);
+
+                if (response.ok) {
+                    alert('Your question has been submitted.');
+                } else {
+                    alert('Error submitting your question.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error submitting your question.');
+            }
+
+            queryBox.value = '';
+            queryBox.disabled = true;
+            document.getElementById('subject-id').value = '';
+            document.getElementById('employee-id').innerHTML = '<option value="">Select an employee</option>';
+            this.disabled = true;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akshay Udbhav E-Learning</title>
+    <link rel="stylesheet" href="Assets/css/home_page.css">
+</head>
+
+<body>
+    <header>
+        <div class="logo-title">
+            <img src="Assets/images/WhatsApp Image 2024-06-27 at 18.21.47_c0bb600d.jpg" alt="Logo" class="logo">
+            <h1>Akshay Udbhav E-Learning</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="https://iocl.com/">About</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div class="button-container">
+            <button id="login-btn">Login</button>
+        </div>
+        <div id="login-dialog" class="hidden">
+            <div class="login-box">
+                <button id="user-login-btn" class="login-option"><a href="user_login.html">User Login<a></button>
+                <button class="login-option"><a href="admin_login.html">Admin Login</a></button>
+            </div>
+        </div>
+        <script>
+            document.getElementById('login-btn').addEventListener('click', function () {
+                const dialog = document.getElementById('login-dialog');
+                const loginBtn = document.getElementById('login-btn');
+                if (dialog.classList.contains('hidden')) {
+                    dialog.classList.remove('hidden');
+                    dialog.style.display = 'flex';
+                    loginBtn.style.display = 'none';
+                } else {
+                    dialog.classList.add('hidden');
+                    dialog.style.display = 'none';
+                    loginBtn.style.display = 'block';
+                }
+            });
+
+            document.getElementById(user-login-btn).addEventListener('click',()=>{
+                window.location.reload()
+            });
+
+        </script>
+    </main>
+    <!--<script src="script.js"></script>-->
+</body>
+
+</html>
